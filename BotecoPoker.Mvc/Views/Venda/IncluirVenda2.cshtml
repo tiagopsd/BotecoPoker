@@ -1,0 +1,40 @@
+﻿@{
+    var erro = (ViewBag?.erro == "" || ViewBag?.erro == null) ? "" : ViewBag.erro;
+    var classeErro = (erro == "" || erro == null) ? "" : "alert alert-danger";
+}
+<br />
+<div align="right">
+    <a type="button" class="btn btn-dark btn-lg direita" href="@Url.Action("FiltroVenda","Venda")">Voltar</a>
+</div>
+<form class="form-control-lg" method="post" action="@Url.Action("IncluirVenda","Venda")">
+
+    <h1 align="center">Incluir Venda</h1>
+    <br />
+    <div class="@classeErro" role="alert">
+        @erro
+    </div>
+    <fieldset class="form-control-lg">
+        <div class="form-row">
+            <div class="col-md-3">
+                <a class="btn btn-dark btn-lg wt100" href="@Url.Action("","")">Comidas</a>
+            </div>
+
+            <div class="col-md-3">
+                <a class="btn btn-dark btn-lg wt100" href="@Url.Action("","")">Refrigerantes</a>
+            </div>
+
+            <div class="col-md-3">
+                <a class="btn btn-dark btn-lg wt100" href="@Url.Action("","")">Doses</a>
+            </div>
+
+            <div class="col-md-3">
+                <a class="btn btn-dark btn-lg wt100" href="@Url.Action("","")">Cervejas</a>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+        </div>
+
+    </fieldset>
+</form>

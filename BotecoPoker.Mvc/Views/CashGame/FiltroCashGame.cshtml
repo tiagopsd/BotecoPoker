@@ -1,0 +1,77 @@
+﻿@using BotecoPoker.Dominio.Entidades
+@using BotecoPoker.Dominio.modelos
+@model PaginacaoModel<CashGame, FiltroCashGame>
+@{
+    var caixaValido = (ViewBag?.caixaValido == "" || ViewBag?.caixaValido == null) ? "" : ViewBag.caixaValido;
+    var classeErro = (caixaValido == "" || caixaValido == null) ? "" : "alert alert-danger";
+    var teste = Model.Parametro2;
+}
+<br />
+<a type="button" class="btn btn-dark btn-lg" href="@Url.Action("CadastroCashGame","CashGame")">Novo Valor</a>
+<form class="form-control-lg">
+    <h1 align="center">Pesquisa de Clientes no Ring Game</h1>
+   
+    <div class="@classeErro" role="alert">
+        @caixaValido
+    </div>
+
+    <fieldset class="form-control-lg">
+        <div class="form-row">
+            <div class="col-md-5">
+                <label class="" for="Nome"><b>Nome Cliente</b></label>
+                <input type="text" class="form-control" id="NomeCliente" name="paginacaoModel.Filtro.NomeCliente" placeholder="Nome do Cliente" value="@Model.Parametro1">
+            </div>
+            <div class="col-md-4">
+                <label class="" for="Valor"><b>Valor</b></label>
+                <input type="text" class="form-control" id="Valor" name="paginacaoModel.Filtro.Valor" placeholder="Valor de entrada" value="@Model.Parametro2">
+            </div>
+            <div class="col-md-3">
+                <label for="sel1"><b>Situação</b></label>
+                <select class="form-control" id="Filtro.Situacao" name="paginacaoModel.Filtro.Situacao" value="@Model.Parametro3">
+                    <option @(Model.Parametro3 == 2 ? "selected" : "") value="2">Nenhum</option>
+                    <option @(Model.Parametro3 == 0 ? "selected" : "") value="0">Pendente</option>
+                    <option @(Model.Parametro3 == 1 ? "selected" : "") value="1">Pago</option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+    <div class="btn-block">
+        <button type="submit" class="btn btn-dark btn-lg wt100">Pesquisar</button>
+    </div>
+    <span>
+    </span>
+</form>
+
+<br />
+<table class="table table-sm table-dark">
+    <thead class="">
+        <tr>
+            <th scope="col"><big>Nome Cliente</big></th>
+            <th scope="col"><big>Valor</big></th>
+            <th scope="col"><big>Situação</big></th>
+            <th scope="col"><big>Data</big></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListaModel)
+        {
+        <tr>
+            <td><big>@item.NomeCliente</big></td>
+            <td><big><big>@item.Valor.ToString("c2")</big></td>
+            <td><big>@item.Situacao</big></td>
+            <td><big>@item.DataCadastro.ToShortDateString() às @item.DataCadastro.ToShortTimeString()</big></td>
+            <td><a class="btn-dark" href="@Url.Action("ImprimirCashGame", new { idCashGame = item.Id })"><big>Imprimir</big></a></td>
+            <td><a class="btn-dark" href="@Url.Action("ObterCashGame", new { idCashGame = item.Id })"><big>Alterar</big></a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @foreach (int pagina in Model.QtdPaginas)
+                {
+            <li class="page-item"><a class="page-link @Model.PrintaPaginaSelecionada(pagina, Model.Pagina)" href="@Url.Action("FiltroCashGame", new PaginacaoModel<CashGame, FiltroCashGame>(Model, pagina))">@pagina</a></li>
+        }
+    </ul>
+</nav>

@@ -1,0 +1,31 @@
+﻿@model TipoProduto
+@using BotecoPoker.Dominio.Entidades
+@{
+    var erro = (ViewBag?.erro == "" || ViewBag?.erro == null) ? "" : ViewBag.erros;
+    var classeErro = (erro == "" || erro == null) ? "" : "alert alert-danger";
+}
+<div align="right">
+    <a type="button" class="btn btn-dark btn-lg" href="@Url.Action("FiltroTipoProduto","TipoProduto")">Voltar</a>
+</div>
+<form class="form-control-lg" method="post" action="@Url.Action("AlterarTipoProduto","TipoProduto")">
+
+    <h1 align="center">Alteração de Tipos de Produtos</h1>
+    <div class="@classeErro" role="alert">
+        @erro
+    </div>
+
+    <fieldset class="form-control-lg">
+
+        <span class="form-row">
+            <input name="Id" hidden value="@Model.Id">
+
+            <span class="form-group col-md-3">
+                <label for="Nome" class=""><b>Nome</b></label>
+                <input type="text" name="Nome" class="form-control" placeholder="Nome do Produto" maxlength="30" required value="@Model.Nome">
+            </span>
+        </span>
+    </fieldset>
+    <span class="">
+        <input type="submit" class="btn-dark btn-lg btn-block" value="Alterar" />
+    </span>
+</form>

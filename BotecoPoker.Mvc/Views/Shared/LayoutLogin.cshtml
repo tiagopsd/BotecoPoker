@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    @Styles.Render("~/Content/vendor/bootstrap/css/bootstrap.min.css")
+    @Styles.Render("~/Content/css/sb-admin.css")
+    @Scripts.Render("~/Scripts/blockui.js")
+    @Scripts.Render("~/Content/vendor/jquery/jquery.min.js")
+</head>
+<body class="bg-dark">
+    <div>
+        @RenderBody()
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<div id="loader"></div>
+
+<script>
+    function MostrarSenha() {
+        var checkBox = document.getElementById('mostraSenha').checked;
+        if (checkBox == true)
+            document.getElementById('senha').type = 'text';
+        else
+            document.getElementById('senha').type = 'password';
+    }
+
+    var spinner = $('#loader');
+
+    $('form').submit(function () {
+        spinner.show();
+    });
+</script>
+
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../Imagens/loading2.gif') no-repeat center center;
+        z-index: 10000;
+    }
+</style>
