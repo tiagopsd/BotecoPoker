@@ -184,8 +184,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\BotecoPoker.Mvc.dll" />
-    <Content Include="bin\BotecoPoker.Mvc.pdb" />
     <Content Include="Content\CadastroCashGame.js" />
     <Content Include="Content\CadastroCliente.js" />
     <Content Include="Content\bootstrap-theme.css" />
