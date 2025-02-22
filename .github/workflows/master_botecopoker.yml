@@ -1,0 +1,71 @@
+name: Build and deploy ASP app to Azure Web App - BotecoPoker
+
+on:
+  push:
+    branches:
+      - Teste
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Restore NuGet packages
+        run: nuget restore
+
+      - name: Build solution
+        run: msbuild BotecoPoker.sln /nologo /verbosity:m /t:Build
+
+      - name: Publish Web Project to folder
+        run: msbuild BotecoPoker.Mvc/BotecoPoker.Mvc.csproj /nologo /verbosity:m /t:Build,Package /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageLocation=../published
+
+      - name: List published folder
+        run: dir published
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: ASP-app
+          path: 'published/**'
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: ASP-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_407B6B982CF1422EA6D4EF50EAACDCC3 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7D23C0F04F8444279F271C53554EB891 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1CAE10B4724B49B78F3F933C13532FBB }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'BotecoPoker'
+          slot-name: 'Production'
+          package: .
