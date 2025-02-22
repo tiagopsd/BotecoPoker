@@ -28,10 +28,12 @@ namespace BotecoPoker.Infra.ClassesRepositorio
 
         public void Atualizar(Ent entidade)
         {
-            var original = Set.Find(entidade.Id);
-            Db.Entry(original).State = EntityState.Modified;
-            Db.Entry(original).OriginalValues.SetValues(entidade);
-            Db.Entry(original).CurrentValues.SetValues(entidade);
+            var original = Set.Find(entidade.Id); 
+            if (original != null)
+            {
+                Db.Entry(original).CurrentValues.SetValues(entidade);
+                Db.Entry(original).State = EntityState.Modified;
+            }
         }
         public Ent Buscar(Id id) => Set.Find(id);
 

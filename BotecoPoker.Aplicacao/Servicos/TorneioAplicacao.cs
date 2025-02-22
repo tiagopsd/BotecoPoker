@@ -41,10 +41,21 @@ namespace BotecoPoker.Aplicacao.Servicos
             var result = Validador.ValidaTorneio(entidade);
             if (result != "")
                 return result;
-            entidade.DataAlteracao = DateTime.Now;
-            entidade.IdUsuarioAlteracao = AutenticacaoAplicacao.ObterUsuarioLogado().Id;
-            TorneioRepositorio.Atualizar(entidade);
-            Contexto.Salvar();
+
+            var entity = TorneioRepositorio.Buscar(entidade.Id);
+
+            entity.DataAlteracao = DateTime.Now;
+            entity.IdUsuarioAlteracao = AutenticacaoAplicacao.ObterUsuarioLogado().Id;
+            entity.Jantar = entidade.Jantar;
+            entity.JackPot = entidade.JackPot;
+            entity.Addon = entidade.Addon;
+            entity.Ativo = entidade.Ativo;
+            entity.BuyDouble = entidade.BuyDouble;
+            entity.BuyIn = entidade.BuyIn;
+            entity.Nome = entidade.Nome;
+            entity.TaxaAdm = entidade.TaxaAdm;
+
+            var x = Contexto.Salvar();
             return result;
         }
 
