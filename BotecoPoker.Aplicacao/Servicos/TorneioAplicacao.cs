@@ -54,6 +54,7 @@ namespace BotecoPoker.Aplicacao.Servicos
             entity.BuyIn = entidade.BuyIn;
             entity.Nome = entidade.Nome;
             entity.TaxaAdm = entidade.TaxaAdm;
+            entity.ReBuy = entidade.ReBuy;
 
             var x = Contexto.Salvar();
             return result;
