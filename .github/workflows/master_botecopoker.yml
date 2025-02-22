@@ -28,7 +28,7 @@ jobs:
         run: msbuild BotecoPoker.sln /nologo /verbosity:m /t:Build
 
       - name: Publish Web Project to folder
-        run: msbuild BotecoPoker.Mvc/BotecoPoker.Mvc.csproj /nologo /verbosity:m /t:Build,Package /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageLocation=../published
+        run: msbuild BotecoPoker.Mvc/BotecoPoker.Mvc.csproj /nologo /verbosity:m /t:Build /p:OutDir=..\published /p:WebProjectOutputDir=..\published
 
       - name: List published folder
         run: dir published
