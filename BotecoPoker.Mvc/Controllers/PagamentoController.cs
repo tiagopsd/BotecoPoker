@@ -31,7 +31,14 @@ namespace BotecoPoker.Mvc.Controllers
 
         public ActionResult PendenciasCliente(long idCliente)
         {
-            return View(PagamentosAplicacao.ObterPendenciaCliente(idCliente));
+            try
+            {
+                return View(PagamentosAplicacao.ObterPendenciaCliente(idCliente));
+            }
+            catch (Exception erro)
+            {
+                return Json(erro.GetBaseException());
+            }
         }
 
         public ActionResult ComprovantePagamentos(PaginacaoModel<Pagamento, FiltroPagamento> paginacaoModel)
